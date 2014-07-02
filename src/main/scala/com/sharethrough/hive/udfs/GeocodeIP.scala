@@ -25,7 +25,8 @@ class GeocodeIP extends UDF {
         "country" -> locationData.countryName,
         "dma_code" -> locationData.dma_code.toString,
         "lat" -> locationData.latitude.toString,
-        "lon" -> locationData.longitude.toString
+        "lon" -> locationData.longitude.toString,
+        "region" -> locationData.region
       ).getOrElse(fieldName, "unknown")
     } else {
       "unknown"
