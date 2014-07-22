@@ -18,18 +18,23 @@ class GeocodeIP extends UDF {
     if(!validIpAddress(ipAddress)) {
       return "unknown"
     }
-    val locationData = geocoder(pathToIpDatabase).getLocation(ipAddress)
-    if (locationData != null) {
-      Map(
-        "city" -> locationData.city,
-        "country" -> locationData.countryName,
-        "dma_code" -> locationData.dma_code.toString,
-        "lat" -> locationData.latitude.toString,
-        "lon" -> locationData.longitude.toString,
-        "region" -> locationData.region
-      ).getOrElse(fieldName, "unknown")
-    } else {
-      "unknown"
+
+    try {
+      val locationData = geocoder(pathToIpDatabase).getLocation(ipAddress)
+      if (locationData != null) {
+        Map(
+          "city" -> locationData.city,
+          "country" -> locationData.countryName,
+          "dma_code" -> locationData.dma_code.toString,
+          "lat" -> locationData.latitude.toString,
+          "lon" -> locationData.longitude.toString,
+          "region" -> locationData.region
+        ).getOrElse(fieldName, "unknown")
+      } else {
+        "unknown"
+      }
+    } catch {
+      case e: Exception => "unknown"
     }
   }
 
